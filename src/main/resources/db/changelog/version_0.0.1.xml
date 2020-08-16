@@ -1,0 +1,100 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:appdba="http://www.datical.net/xml/ns/appdba"
+	xmlns:datical="http://www.datical.net/xml/ns/datical"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+	<changeSet author="sukys" id="1">
+		<preConditions onFail="HALT">
+			<not>
+				<tableExists tableName="user" />
+			</not>
+		</preConditions>
+		<createTable tableName="user" remarks="Table to store the users.">	
+			<column autoIncrement="true" name="id" type="BIGINT(18) UNSIGNED" remarks="Unique identifier">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="first_name" type="VARCHAR(50)" remarks="The User's first name.">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_name" type="VARCHAR(50)" remarks="The User's last name." />
+			<column name="email" type="VARCHAR(100)" remarks="The User's e-mail.">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(100)" remarks="The User's password.">
+				<constraints nullable="false" />
+			</column>			
+			<column name="data_cadastro" type="DATETIME"  defaultValueComputed="CURRENT_TIMESTAMP" remarks="DateTime that the user was created."/>	
+		</createTable>
+		<comment>Cria a estrutura da tabela 'user' para armazenar os dados dos usuários do sistema.</comment>
+	</changeSet>
+	
+	
+	<changeSet author="sukys" id="2">
+		<preConditions onFail="HALT">
+			<not>
+				<tableExists tableName="application" />
+			</not>
+		</preConditions>
+		<createTable tableName="application" remarks="Table to store the applications.">	
+			<column autoIncrement="true" name="id" type="BIGINT(18) UNSIGNED" remarks="Unique identifier">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(75)" remarks="The System name.">
+				<constraints nullable="false" />
+			</column>
+			<column name="url" type="VARCHAR(150)" remarks="The URL to the application if exists." />
+			<column name="description" type="VARCHAR(200)" remarks="A brief description abou the application." />
+			<column name="version" type="VARCHAR(20)" remarks="The version of the application." />
+			<column name="environment" type="VARCHAR(50)" remarks="The environment where the application is running." />
+			<column name="token" type="VARCHAR(200)" remarks="The token this app will use to acess the system." />
+			<column name="user_id" type="BIGINT(18) UNSIGNED" remarks="The id from the user that registered the application.">
+			    <constraints nullable="false" />
+			</column>
+			<column name="data_cadastro" type="DATETIME"  defaultValueComputed="CURRENT_TIMESTAMP" remarks="DateTime that the application was registered."/>	
+		</createTable>
+		<comment>Cria a estrutura da tabela 'application' para armazenar os dados dos sistemas dacastrados.</comment>
+	</changeSet>
+	
+	<changeSet author="sukys" id="3">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<foreignKeyConstraintExists foreignKeyName="fk_application_to_user" />
+			</not>
+		</preConditions>
+		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="application"
+			constraintName="fk_application_to_user" onDelete="RESTRICT"
+			referencedColumnNames="id" referencedTableName="user" />
+		<comment>Cria a FK 'fk_application_to_user' da tabela application para referenciar a tabela user.</comment>
+	</changeSet>
+	
+	
+	
+	<changeSet author="sukys" id="4">
+		<preConditions onFail="HALT">
+			<not>
+				<tableExists tableName="log_event" />
+			</not>
+		</preConditions>
+		<createTable tableName="log_event" remarks="Table to store the applications' logs.">	
+			<column autoIncrement="true" name="id" type="BIGINT(18) UNSIGNED" remarks="Unique identifier">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="level" type="VARCHAR(10)" remarks="The level of this log.">
+				<constraints nullable="false" />
+			</column>
+			<column name="application_id" type="BIGINT(18)" remarks="The application this log reffers to." />
+			<column name="description" type="VARCHAR(200)" remarks="A brief description about the log." />
+			<column name="log" type="TEXT" remarks="The log." />
+			<column name="date" type="DATETIME"  defaultValueComputed="CURRENT_TIMESTAMP" remarks="DateTime that the log was inserted."/>	
+		</createTable>
+		<comment>Cria a estrutura da tabela 'log_event' para armazenar os dados dos logs que as aplicações dacastradas enviam.</comment>
+	</changeSet>
+	
+
+</databaseChangeLog>	
+	
+	
