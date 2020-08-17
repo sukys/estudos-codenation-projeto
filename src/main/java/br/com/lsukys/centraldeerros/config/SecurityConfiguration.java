@@ -30,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			"/v3/api-docs", 
 			"/v3/api-docs/**",
 			"/configuration/security", 
-			"/webjars/**" 
+			"/webjars/**",
+			"/v1/user/*"
 	};
 
 	@Bean
@@ -53,5 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
 	}
+	
+	
 
 }

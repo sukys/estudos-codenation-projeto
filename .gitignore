@@ -7,7 +7,7 @@ read.me
 /nbproject/
 **/bin
 .gitlab/*
-
+.tern-project
 
 ### GIT & GITLAB ###
 .gitlab/
