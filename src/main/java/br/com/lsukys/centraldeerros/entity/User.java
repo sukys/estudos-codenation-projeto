@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name="user", schema = "public")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;

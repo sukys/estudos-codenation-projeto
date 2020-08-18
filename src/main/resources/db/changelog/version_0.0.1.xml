@@ -10,11 +10,11 @@
 	<changeSet author="sukys" id="1">
 		<preConditions onFail="HALT">
 			<not>
-				<tableExists tableName="user" />
+				<tableExists tableName="user" schemaName="public" />
 			</not>
 		</preConditions>
-		<createTable tableName="user" remarks="Table to store the users.">	
-			<column autoIncrement="true" name="id" type="BIGINT(18) UNSIGNED" remarks="Unique identifier">
+		<createTable tableName="user" schemaName="public" remarks="Table to store the users.">	
+			<column autoIncrement="true" name="id" type="BIGINT" remarks="Unique identifier">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="first_name" type="VARCHAR(50)" remarks="The User's first name.">
@@ -36,11 +36,11 @@
 	<changeSet author="sukys" id="2">
 		<preConditions onFail="HALT">
 			<not>
-				<tableExists tableName="application" />
+				<tableExists tableName="application" schemaName="public" />
 			</not>
 		</preConditions>
-		<createTable tableName="application" remarks="Table to store the applications.">	
-			<column autoIncrement="true" name="id" type="BIGINT(18) UNSIGNED" remarks="Unique identifier">
+		<createTable tableName="application" schemaName="public" remarks="Table to store the applications.">	
+			<column autoIncrement="true" name="id" type="BIGINT" remarks="Unique identifier">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="name" type="VARCHAR(75)" remarks="The System name.">
@@ -51,7 +51,7 @@
 			<column name="version" type="VARCHAR(20)" remarks="The version of the application." />
 			<column name="environment" type="VARCHAR(50)" remarks="The environment where the application is running." />
 			<column name="token" type="VARCHAR(200)" remarks="The token this app will use to acess the system." />
-			<column name="user_id" type="BIGINT(18) UNSIGNED" remarks="The id from the user that registered the application.">
+			<column name="user_id" type="BIGINT" remarks="The id from the user that registered the application.">
 			    <constraints nullable="false" />
 			</column>
 			<column name="data_cadastro" type="DATETIME"  defaultValueComputed="CURRENT_TIMESTAMP" remarks="DateTime that the application was registered."/>	
@@ -65,7 +65,7 @@
 				<foreignKeyConstraintExists foreignKeyName="fk_application_to_user" />
 			</not>
 		</preConditions>
-		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="application"
+		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="application" 
 			constraintName="fk_application_to_user" onDelete="RESTRICT"
 			referencedColumnNames="id" referencedTableName="user" />
 		<comment>Cria a FK 'fk_application_to_user' da tabela application para referenciar a tabela user.</comment>
@@ -76,17 +76,17 @@
 	<changeSet author="sukys" id="4">
 		<preConditions onFail="HALT">
 			<not>
-				<tableExists tableName="log_event" />
+				<tableExists tableName="log_event" schemaName="public" />
 			</not>
 		</preConditions>
-		<createTable tableName="log_event" remarks="Table to store the applications' logs.">	
-			<column autoIncrement="true" name="id" type="BIGINT(18) UNSIGNED" remarks="Unique identifier">
+		<createTable tableName="log_event" schemaName="public" remarks="Table to store the applications' logs.">	
+			<column autoIncrement="true" name="id" type="BIGINT" remarks="Unique identifier">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="level" type="VARCHAR(10)" remarks="The level of this log.">
 				<constraints nullable="false" />
 			</column>
-			<column name="application_id" type="BIGINT(18)" remarks="The application this log reffers to." />
+			<column name="application_id" type="BIGINT" remarks="The application this log reffers to." />
 			<column name="description" type="VARCHAR(200)" remarks="A brief description about the log." />
 			<column name="log" type="TEXT" remarks="The log." />
 			<column name="date" type="DATETIME"  defaultValueComputed="CURRENT_TIMESTAMP" remarks="DateTime that the log was inserted."/>	
