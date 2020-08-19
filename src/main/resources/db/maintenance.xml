@@ -24,7 +24,7 @@
 	<changeSet runAlways="true" runOnChange="true" author="sukys" id="2" >
 		<preConditions onFail="MARK_RAN">
 			<sqlCheck expectedResult="0">
-				SELECT COUNT(*) FROM user where email = 'admin@central_erros.com';
+				SELECT COUNT(*) FROM public.user where email = 'admin@central_erros.com';
 			</sqlCheck>
 		</preConditions>
 	    <insert tableName="user" schemaName="public">
