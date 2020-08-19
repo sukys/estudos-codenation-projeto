@@ -94,7 +94,7 @@
 		<comment>Cria a estrutura da tabela 'log_event' para armazenar os dados dos logs que as aplicações dacastradas enviam.</comment>
 	</changeSet>
 	
-
+	
 </databaseChangeLog>	
 	
 	
