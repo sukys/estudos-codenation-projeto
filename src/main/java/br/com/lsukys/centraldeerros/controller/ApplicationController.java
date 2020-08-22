@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.lsukys.centraldeerros.dto.ApplicationDTO;
 import br.com.lsukys.centraldeerros.dto.ErrorDTO;
-import br.com.lsukys.centraldeerros.dto.UserDTO;
-import br.com.lsukys.centraldeerros.dto.mapper.UserMapper;
-import br.com.lsukys.centraldeerros.entity.User;
-import br.com.lsukys.centraldeerros.service.UserService;
+import br.com.lsukys.centraldeerros.dto.mapper.ApplicationMapper;
+import br.com.lsukys.centraldeerros.entity.Application;
+import br.com.lsukys.centraldeerros.service.ApplicationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,63 +27,63 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("v1/user")
-@Api(value = "User", tags = { "Usuário" })
-public class UserController {
+@RequestMapping("v1/application")
+@Api(value = "Application", tags = { "Aplicações" })
+public class ApplicationController {
 
 	@Autowired
-	private UserService service;
+	private ApplicationService service;
 
 	@Autowired
-	private UserMapper mapper;
+	private ApplicationMapper mapper;
 
 	@ApiOperation(value = "findAll")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Success", response = UserDTO.class, responseContainer = "List"),
+			@ApiResponse(code = 200, message = "Success", response = ApplicationDTO.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
 			@ApiResponse(code = 403, message = "Forbidden", response = ErrorDTO.class),
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@GetMapping
 	@Secured(value = { "ADMIN" })
-	ResponseEntity<List<UserDTO>> findAll() {
-		List<User> list = service.findAll();
-		List<UserDTO> listDto = mapper.userListToUserDTOList(list);
+	ResponseEntity<List<ApplicationDTO>> findAll() {
+		List<Application> list = service.findAll();
+		List<ApplicationDTO> listDto = mapper.applicationListToApplicationDTOList(list);
 		return new ResponseEntity<>(listDto, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "findById")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = UserDTO.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = ApplicationDTO.class),
 			@ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
 			@ApiResponse(code = 403, message = "Forbidden", response = ErrorDTO.class),
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@GetMapping(value = "/{id}")
 	@Secured(value = { "ADMIN" })
-	ResponseEntity<UserDTO> findById(@ApiParam(value = "id para pesquisa", required = true) @PathVariable Long id) {
-		return new ResponseEntity<>(mapper.userToUserDTO(service.findById(id)), HttpStatus.OK);
+	ResponseEntity<ApplicationDTO> findById(@ApiParam(value = "id para pesquisa", required = true) @PathVariable Long id) {
+		return new ResponseEntity<>(mapper.applicationToApplicationDTO(service.findById(id)), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "create")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created", response = UserDTO.class),
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created", response = ApplicationDTO.class),
 			@ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
 			@ApiResponse(code = 403, message = "Forbidden", response = ErrorDTO.class),
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@PostMapping
 	@Secured(value = { "ADMIN" })
-	ResponseEntity<UserDTO> save(@RequestBody UserDTO dto) {
-		User entity = service.save(mapper.userDTOToUser(dto));
-		return new ResponseEntity<>(mapper.userToUserDTO(entity), HttpStatus.CREATED);
+	ResponseEntity<ApplicationDTO> save(@RequestBody ApplicationDTO dto) {
+		Application entity = service.save(mapper.applicationDTOToApplication(dto));
+		return new ResponseEntity<>(mapper.applicationToApplicationDTO(entity), HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "update")
-	@ApiResponses(value = { @ApiResponse(code = 20, message = "Success", response = UserDTO.class),
+	@ApiResponses(value = { @ApiResponse(code = 20, message = "Success", response = ApplicationDTO.class),
 			@ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
 			@ApiResponse(code = 403, message = "Forbidden", response = ErrorDTO.class),
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@PutMapping
 	@Secured(value = { "ADMIN" })
-	ResponseEntity<UserDTO> update(@RequestBody UserDTO dto) {
-		User entity = service.save(mapper.userDTOToUser(dto));
-		return new ResponseEntity<>(mapper.userToUserDTO(entity), HttpStatus.OK);
+	ResponseEntity<ApplicationDTO> update(@RequestBody ApplicationDTO dto) {
+		Application entity = service.save(mapper.applicationDTOToApplication(dto));
+		return new ResponseEntity<>(mapper.applicationToApplicationDTO(entity), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "delete")
@@ -98,4 +98,5 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	
 }
