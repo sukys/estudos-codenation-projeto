@@ -58,7 +58,7 @@ public class ApplicationController {
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@GetMapping(value = "/{id}")
 	@Secured(value = { "ADMIN" })
-	ResponseEntity<ApplicationDTO> findById(@ApiParam(value = "id para pesquisa", required = true) @PathVariable Long id) {
+	ResponseEntity<ApplicationDTO> findById(@ApiParam(value = "id para pesquisa", required = true) @PathVariable Integer id) {
 		return new ResponseEntity<>(mapper.applicationToApplicationDTO(service.findById(id)), HttpStatus.OK);
 	}
 
@@ -93,7 +93,7 @@ public class ApplicationController {
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@DeleteMapping(value = "/{id}")
 	@Secured(value = { "ADMIN" })
-	public ResponseEntity<String> delete(@PathVariable Long id) {
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

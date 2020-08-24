@@ -10,19 +10,6 @@
 	
 	<changeSet runAlways="true" runOnChange="true" author="sukys" id="1" >
 		<preConditions onFail="MARK_RAN">
-		    <not>
-				<sqlCheck expectedResult="0">
-					SELECT COUNT(*) FROM public.user;
-				</sqlCheck>
-			</not>
-		</preConditions>
-	    <delete tableName="user" schemaName="public">
-	    </delete>
-		<comment>Apaga os registro da tabela user</comment>
-	</changeSet>
-	
-	<changeSet runAlways="true" runOnChange="true" author="sukys" id="2" >
-		<preConditions onFail="MARK_RAN">
 			<sqlCheck expectedResult="0">
 				SELECT COUNT(*) FROM public.user where email = 'admin@central_erros.com';
 			</sqlCheck>

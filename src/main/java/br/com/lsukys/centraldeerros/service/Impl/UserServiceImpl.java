@@ -1,5 +1,6 @@
 package br.com.lsukys.centraldeerros.service.Impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,17 +27,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public User findById(Long id) {
+	public User findById(Integer id) {
 		return repository.getOne(id);
 	}
 
 	@Override
 	public User save(User entity) {
+		entity.setDataCadastro(LocalDateTime.now());
 		return repository.save(entity);
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		repository.deleteById(id);
 	}
 

@@ -1,5 +1,6 @@
 package br.com.lsukys.centraldeerros.service.Impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,18 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public Application findById(Long id) {
+	public Application findById(Integer id) {
 		return repository.getOne(id);
 	}
 
 	@Override
 	public Application save(Application entity) {
+		entity.setDataCadastro(LocalDateTime.now());
 		return repository.save(entity);
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void delete(Integer id) {
 		repository.deleteById(id);
 	}
 

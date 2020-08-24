@@ -20,9 +20,7 @@ import org.springframework.web.client.RestClientException;
 import br.com.lsukys.centraldeerros.config.TokenProvider;
 import br.com.lsukys.centraldeerros.dto.ErrorDTO;
 import br.com.lsukys.centraldeerros.dto.UserDTO;
-import br.com.lsukys.centraldeerros.dto.mapper.UserMapper;
 import br.com.lsukys.centraldeerros.entity.User;
-import br.com.lsukys.centraldeerros.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -46,11 +44,11 @@ public class AuthenticationController {
 	@Autowired
 	BuildProperties buildProperties;
 
-	@Autowired
-	private UserService service;
-
-	@Autowired
-	private UserMapper mapper;
+//	@Autowired
+//	private UserService service;
+//
+//	@Autowired
+//	private UserMapper mapper;
 
 	/**
 	 * Efetua o login na aplicação.

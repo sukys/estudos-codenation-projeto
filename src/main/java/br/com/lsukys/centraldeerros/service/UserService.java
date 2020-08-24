@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import br.com.lsukys.centraldeerros.entity.User;
 
-public interface UserService extends CrudService<User, Long> {
+public interface UserService extends CrudService<User, Integer> {
 
 	Optional<User> findByEmail(String email);
 

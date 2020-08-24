@@ -19,6 +19,7 @@ import br.com.lsukys.centraldeerros.dto.ErrorDTO;
 import br.com.lsukys.centraldeerros.dto.LogEventDTO;
 import br.com.lsukys.centraldeerros.dto.LogLevelCountDTO;
 import br.com.lsukys.centraldeerros.dto.mapper.LogEventMapper;
+import br.com.lsukys.centraldeerros.dto.mapper.LogLevelCountMapper;
 import br.com.lsukys.centraldeerros.entity.LogEvent;
 import br.com.lsukys.centraldeerros.entity.LogLevelCount;
 import br.com.lsukys.centraldeerros.service.LogEventService;
@@ -30,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("v1/logEvent")
-@Api(value = "LogEvent", tags = { "Aplicações" })
+@Api(value = "LogEvent", tags = { "Eventos de Log" })
 public class LogEventController {
 
 	@Autowired
@@ -38,6 +39,9 @@ public class LogEventController {
 
 	@Autowired
 	private LogEventMapper mapper;
+	
+	@Autowired
+	private LogLevelCountMapper levelMapper;
 
 	@ApiOperation(value = "findAll")
 	@ApiResponses(value = {
@@ -60,7 +64,7 @@ public class LogEventController {
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@GetMapping(value = "/{id}")
 	@Secured(value = { "ADMIN" })
-	ResponseEntity<LogEventDTO> findById(@ApiParam(value = "id para pesquisa", required = true) @PathVariable Long id) {
+	ResponseEntity<LogEventDTO> findById(@ApiParam(value = "id para pesquisa", required = true) @PathVariable Integer id) {
 		return new ResponseEntity<>(mapper.logEventToLogEventDTO(service.findById(id)), HttpStatus.OK);
 	}
 
@@ -95,7 +99,7 @@ public class LogEventController {
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
 	@DeleteMapping(value = "/{id}")
 	@Secured(value = { "ADMIN" })
-	public ResponseEntity<String> delete(@PathVariable Long id) {
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -107,16 +111,35 @@ public class LogEventController {
 			@ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
 			@ApiResponse(code = 403, message = "Forbidden", response = ErrorDTO.class),
 			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
-	@DeleteMapping(value = "/{applicationId}/{level}")
+	@GetMapping(value = "/{applicationId}/{level}")
 	@Secured(value = { "ADMIN" })
-	public ResponseEntity<String> count(@PathVariable Long applicationId, @PathVariable String level) {
+	public ResponseEntity<LogLevelCountDTO> count(@PathVariable Integer applicationId, @PathVariable String level) {
 		try {
 			LogLevelCount count = service.countByLevel(applicationId, level);
-			 
-			LogLevelCountDTO levelCount = new LogLevelCountDTO();
+			return new ResponseEntity<>(levelMapper.logLevelCountToLogLevelCountDTO(count), HttpStatus.OK) ;
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	
+	@ApiOperation(value = "Contar os logs da aplicação mostrando por nivel")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+			@ApiResponse(code = 403, message = "Forbidden", response = ErrorDTO.class),
+			@ApiResponse(code = 500, message = "Failure", response = ErrorDTO.class) })
+	@GetMapping(value = "/count/{applicationId}")
+	@Secured(value = { "ADMIN" })
+	public ResponseEntity<List<LogLevelCountDTO>> countAllLevels(@PathVariable Integer applicationId) {
+		try {
+			List<LogLevelCount> counts = service.countAllLevels(applicationId);
+			return new ResponseEntity<>(levelMapper.logLevelCountListToLogLevelCountDTOList(counts), HttpStatus.OK) ;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
 	}
 	
 }

@@ -4,10 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.lsukys.centraldeerros.entity.LogEvent;
+import br.com.lsukys.centraldeerros.enums.LogLevel;
 
 @Repository
-public interface LogEventRepository extends JpaRepository<LogEvent, Long> {
+public interface LogEventRepository extends JpaRepository<LogEvent, Integer> {
 
-	Integer countByApplicationIdAndLevel(Long applicationId, String level);
+	Integer countByApplicationIdAndLevel(Integer applicationId, LogLevel level);
 
 }

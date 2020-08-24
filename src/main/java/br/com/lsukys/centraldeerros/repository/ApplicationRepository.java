@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.com.lsukys.centraldeerros.entity.Application;
 
 @Repository
-public interface ApplicationRepository extends JpaRepository<Application, Long>{
+public interface ApplicationRepository extends JpaRepository<Application, Integer>{
 
 }
