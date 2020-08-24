@@ -34,14 +34,15 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket apis() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
 				.apis(RequestHandlerSelectors.basePackage("br.com.lsukys.centraldeerros"))
 				.paths(PathSelectors.any())
 				.build()
 				.apiInfo(apiInfo())
-				.useDefaultResponseMessages(false)
-				.securitySchemes(Arrays.asList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
-		        .securityContexts(Arrays.asList(securityContext()));
+				.useDefaultResponseMessages(false);
+				//.securitySchemes(Arrays.asList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
+		        //.securityContexts(Arrays.asList(securityContext()));
 		
 	}
 
